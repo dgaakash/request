@@ -37,7 +37,7 @@ def request(update: Update, context: CallbackContext) -> None:
     else:
         anime_name = update.message.text.split("#request ")[-1]
         requests[user_id] = {"name": anime_name, "message_id": update.message.message_id}
-        log_message = context.bot.send_message(chat_id=log,
+        log_message = context.bot.send_message(chat_id= '-1001991249685',
                                                text=f"New request: {anime_name}",
                                                reply_markup=InlineKeyboardMarkup([
                                                    [InlineKeyboardButton("Approve", callback_data=f"approve_{user_id}"),
@@ -51,7 +51,7 @@ def request(update: Update, context: CallbackContext) -> None:
 def button(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
     user_id = query.data.split("_")[-1]
-    log_channel_id = log  # Log channel ID
+    log_channel_id = -1001991249685  # Log channel ID
 
     if query.data.startswith("approve"):
         anime_name = requests.get(user_id, {}).get("name", "Unknown")
