@@ -14,7 +14,7 @@ requests = {}
 started_users = set()
 BOT_NAME = os.environ.get("BOT_NAME")
 GRP_LINK = os.environ.get("GRP_LINK")
-log = os.environ.get("LOG_CHANNEL")
+LOG = os.environ.get("LOG_CHANNEL")
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 
 
@@ -38,7 +38,7 @@ def request(update: Update, context: CallbackContext) -> None:
     else:
         anime_name = update.message.text.split("#request ")[-1]
         requests[user_id] = {"name": anime_name, "message_id": update.message.message_id}
-        log_message = context.bot.send_message(chat_id=log,
+        log_message = context.bot.send_message(chat_id=LOG,
                                                text=f"New request: {anime_name}",
                                                reply_markup=InlineKeyboardMarkup([
                                                    [InlineKeyboardButton("Approve", callback_data=f"approve_{user_id}"),
@@ -52,7 +52,7 @@ def request(update: Update, context: CallbackContext) -> None:
 def button(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
     user_id = query.data.split("_")[-1]
-    log_channel_id = log  # Log channel ID
+    log_channel_id = LOG  # Log channel ID
 
     if query.data.startswith("approve"):
         anime_name = requests.get(user_id, {}).get("name", "Unknown")
