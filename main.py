@@ -13,6 +13,7 @@ requests = {}
 
 # Set to store users who have started the bot
 started_users = set()
+NAME = os.getenv("BOT_NAME")
 
 
 # Function to handle /start command
@@ -30,7 +31,7 @@ def request(update: Update, context: CallbackContext) -> None:
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text="Please start the bot first.",
                                  reply_markup=InlineKeyboardMarkup([
-                                     [InlineKeyboardButton("Start Bot", url="t.me/APM_Video_Encoderobot")]
+                                     [InlineKeyboardButton("Start Bot", url="t.me/{NAME}")]
                                  ]))
     else:
         anime_name = update.message.text.split("#request ")[-1]
