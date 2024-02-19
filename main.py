@@ -82,7 +82,7 @@ def error(update: Update, context: CallbackContext) -> None:
 
 
 def main():
-    updater = Updater("6861529680:AAGjeBsp_rs_fP5RLukUYH0zk02MpbPMVrY", use_context=True)
+    updater = Updater("6780391059:AAETaBDjTNAPyQR1ed41WvzG1EV2F6GlszY", use_context=True)
 
     dp = updater.dispatcher
 
