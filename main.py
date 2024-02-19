@@ -32,7 +32,7 @@ def request(update: Update, context: CallbackContext) -> None:
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text="Please start the bot first.",
                                  reply_markup=InlineKeyboardMarkup([
-                                     [InlineKeyboardButton("Start Bot", url="t.me/{NAME}")]
+                                     [InlineKeyboardButton("Start Bot", url="t.me/warior_request_bot")]
                                  ]))
     else:
         anime_name = update.message.text.split("#request ")[-1]
