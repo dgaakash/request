@@ -2,7 +2,6 @@ import logging
 import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, CallbackQueryHandler
-
 # Set up logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -13,8 +12,10 @@ requests = {}
 
 # Set to store users who have started the bot
 started_users = set()
-NAME = os.getenv("BOT_NAME")
-log = os.getenv("LOG_CHANNEL")
+BOT_NAME = os.environ.get("BOT_NAME")
+GRP_LINK = os.environ.get("GRP_LINK")
+log = os.environ.get("LOG_CHANNEL")
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 
 
 # Function to handle /start command
@@ -32,18 +33,18 @@ def request(update: Update, context: CallbackContext) -> None:
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text="Please start the bot first.",
                                  reply_markup=InlineKeyboardMarkup([
-                                     [InlineKeyboardButton("Start Bot", url="t.me/warior_request_bot")]
+                                     [InlineKeyboardButton("Start Bot", url=f"t.me/{BOT_NAME}")]
                                  ]))
     else:
         anime_name = update.message.text.split("#request ")[-1]
         requests[user_id] = {"name": anime_name, "message_id": update.message.message_id}
-        log_message = context.bot.send_message(chat_id= '-1001991249685',
+        log_message = context.bot.send_message(chat_id=log,
                                                text=f"New request: {anime_name}",
                                                reply_markup=InlineKeyboardMarkup([
                                                    [InlineKeyboardButton("Approve", callback_data=f"approve_{user_id}"),
                                                     InlineKeyboardButton("Decline", callback_data=f"decline_{user_id}"),
                                                     InlineKeyboardButton("Unavailable", callback_data=f"unavailable_{user_id}")],
-                                                   [InlineKeyboardButton("Request Message", url=f"https://t.me/APM_MOVIES_REQUEST/{update.message.message_id}")]
+                                                   [InlineKeyboardButton("Request Message", url=f"{GRP_LINK}/{update.message.message_id}")]
                                                ]))
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text="Okay, Your request has been sent to the admins to review. Please wait some days for it to be uploaded.")
@@ -51,7 +52,7 @@ def request(update: Update, context: CallbackContext) -> None:
 def button(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
     user_id = query.data.split("_")[-1]
-    log_channel_id = -1001991249685  # Log channel ID
+    log_channel_id = log  # Log channel ID
 
     if query.data.startswith("approve"):
         anime_name = requests.get(user_id, {}).get("name", "Unknown")
@@ -73,16 +74,14 @@ def button(update: Update, context: CallbackContext) -> None:
                                       text=new_text, parse_mode='Markdown')
         context.bot.send_message(chat_id=user_id, text="The requested anime is unavailable.")
 
-
-
-
 # Function to handle errors
 def error(update: Update, context: CallbackContext) -> None:
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 
 def main():
-    updater = Updater("6780391059:AAETaBDjTNAPyQR1ed41WvzG1EV2F6GlszY", use_context=True)
+    token = os.getenv("BOT_TOKEN")
+    updater = Updater(token, use_context=True)
 
     dp = updater.dispatcher
 
