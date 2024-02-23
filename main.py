@@ -30,7 +30,7 @@ def start(update: Update, context: CallbackContext) -> None:
 def request(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
     if user_id not in started_users:
-        update.message.reply_text(chat_id=update.effective_chat.id,
+        context.message.reply_text(chat_id=update.effective_chat.id,
                                  text="Please start the bot first.",
                                  reply_markup=InlineKeyboardMarkup([
                                      [InlineKeyboardButton("Start Bot", url=f"t.me/{BOT_NAME}")]
