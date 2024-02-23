@@ -30,7 +30,7 @@ def start(update: Update, context: CallbackContext) -> None:
 def request(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
     if user_id not in started_users:
-        context.bot.send_message(chat_id=update.effective_chat.id,
+        update.message.reply_text(chat_id=update.effective_chat.id,
                                  text="Please start the bot first.",
                                  reply_markup=InlineKeyboardMarkup([
                                      [InlineKeyboardButton("Start Bot", url=f"t.me/{BOT_NAME}")]
@@ -46,7 +46,7 @@ def request(update: Update, context: CallbackContext) -> None:
                                                     InlineKeyboardButton("Unavailable", callback_data=f"unavailable_{user_id}")],
                                                    [InlineKeyboardButton("Request Message", url=f"{GRP_LINK}/{update.message.message_id}")]
                                                ]))
-        context.bot.send_message(chat_id=update.effective_chat.id,
+        update.message.reply_text(chat_id=update.effective_chat.id,
                                  text="Okay, Your request has been sent to the admins to review. Please wait some days for it to be uploaded.")
 
 def button(update: Update, context: CallbackContext) -> None:
