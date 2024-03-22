@@ -88,8 +88,6 @@ def button(update: Update, context: CallbackContext) -> None:
             context.bot.edit_message_text(chat_id=log_channel_id, message_id=query.message.message_id,
                                           text=new_text, parse_mode='Markdown')
             context.bot.send_message(chat_id=user_id, text="The requested anime is unavailable.")
-    else:
-        context.bot.send_message(chat_id=user_id, text="Only admins can perform this action.")
 
 
 # Function to handle errors
