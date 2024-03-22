@@ -70,21 +70,21 @@ def button(update: Update, context: CallbackContext) -> None:
             new_text = f"*Approved The*:\n{old_message_text}"
             context.bot.edit_message_text(chat_id=log_channel_id, message_id=query.message.message_id,
                                           text=new_text, parse_mode='Markdown')
-            context.bot.send_message(chat_id=user_id, text="Your anime has been Approved.")
+            context.bot.send_message(chat_id=user_id, text="Your Request has been Approved.")
     elif query.data.startswith("decline"):
             anime_name = requests.get(user_id, {}).get("name", "Unknown")
             old_message_text = query.message.text
             new_text = f"*Declined The*:\n{old_message_text}:"
             context.bot.edit_message_text(chat_id=log_channel_id, message_id=query.message.message_id,
                                           text=new_text, parse_mode='Markdown')
-            context.bot.send_message(chat_id=user_id, text="Unfortunately, your anime has been declined.")
+            context.bot.send_message(chat_id=user_id, text="Unfortunately, your Request has been declined.")
     elif query.data.startswith("unavailable"):
             anime_name = requests.get(user_id, {}).get("name", "Unknown")
             old_message_text = query.message.text
             new_text = f"*Unavailable The*:\n{old_message_text}"
             context.bot.edit_message_text(chat_id=log_channel_id, message_id=query.message.message_id,
                                           text=new_text, parse_mode='Markdown')
-            context.bot.send_message(chat_id=user_id, text="The requested anime is unavailable.")
+            context.bot.send_message(chat_id=user_id, text="The requested Request is unavailable.")
 
 
 # Function to handle errors
