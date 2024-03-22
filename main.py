@@ -64,24 +64,21 @@ def button(update: Update, context: CallbackContext) -> None:
     user_id = query.data.split("_")[-1]
     log_channel_id = LOG  # Log channel ID
 
-    # Check if the user is an admin
-    user = context.bot.get_chat_member(update.effective_chat.id, user_id)
-    if user.status == 'administrator':
-        if query.data.startswith("approve"):
+    if query.data.startswith("approve"):
             anime_name = requests.get(user_id, {}).get("name", "Unknown")
             old_message_text = query.message.text
             new_text = f"*Approved The*:\n{old_message_text}"
             context.bot.edit_message_text(chat_id=log_channel_id, message_id=query.message.message_id,
                                           text=new_text, parse_mode='Markdown')
             context.bot.send_message(chat_id=user_id, text="Your anime has been Approved.")
-        elif query.data.startswith("decline"):
+    elif query.data.startswith("decline"):
             anime_name = requests.get(user_id, {}).get("name", "Unknown")
             old_message_text = query.message.text
             new_text = f"*Declined The*:\n{old_message_text}:"
             context.bot.edit_message_text(chat_id=log_channel_id, message_id=query.message.message_id,
                                           text=new_text, parse_mode='Markdown')
             context.bot.send_message(chat_id=user_id, text="Unfortunately, your anime has been declined.")
-        elif query.data.startswith("unavailable"):
+    elif query.data.startswith("unavailable"):
             anime_name = requests.get(user_id, {}).get("name", "Unknown")
             old_message_text = query.message.text
             new_text = f"*Unavailable The*:\n{old_message_text}"
